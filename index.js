@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const unirest = require('unirest')
 const session = require('express-session')
+const router = express.Router()
 
 const PORT = process.env.PORT || 5000
 
@@ -35,20 +36,26 @@ express()
     key: ""
   }))
 
-  //Result 
+
+  //Translate Result 
   .post('/',(req,res)=>{
     console.log("Translating "+req.body.key+"\n")
+
+    //Get result from translate api
     axios
       .get(translateAPI.replace('%s',encodeURIComponent(req.body.key)))
       .then((response)=>{
         console.log("Translate from '"+req.body.key+"' to '"+response.data.text+"'\n")
         
+        //Pass the result into words api
         unirest.get("https://wordsapiv1.p.mashape.com/words/"+encodeURIComponent(response.data.text))
         .header("X-Mashape-Key", "bd889dc4e9msh08490d7b1bf93a9p14ea1bjsn5580b2931329")
         .header("Accept", "application/json")
         .end(function (response2) {
           console.log("Dictionary result:")
           console.log(response2.body.results);
+
+          //Pass both the result into pages
           res.render('pages/index',{
             id: req.session.email,
             name: req.session.name,
@@ -196,28 +203,22 @@ express()
    
   })
 
+
   //Add word to dictionary
   .post('/add',(req,res)=>{
-    // console.log(req.body.source)
-    // console.log(req.body.result)
-    // console.log(req.body.partOfSpeech)
-    // console.log(req.body.definition)
     
     var word = require('./wordDB')
 
-    newWord = new word({
-      source:(req.body.source),
-      result:(req.body.result),
-      partOfSpeech:(req.body.partOfSpeech),
-      definition:(req.body.definition)
-    })
+    
 
-
+    //Find if the word existed
     word.find({
       "source": req.body.source,
       "definition": req.body.definition
     })
     .then(response=>{
+      
+      //If word existed
       if(response[0]!=null){
         word.findOneAndUpdate({
           "source": req.body.source,
@@ -229,8 +230,17 @@ express()
         }).then(response2=>{
           console.log("Word found! Added to user dictionary!")
         })
-        
+
+      //If word not existed create a new word
       }else{
+
+        newWord = new word({
+          source:(req.body.source),
+          result:(req.body.result),
+          partOfSpeech:(req.body.partOfSpeech),
+          definition:(req.body.definition)
+        })
+
         newWord.save()
         .then(response=>{
           console.log("New word saved! Adding to user dictionary!")
