@@ -48,7 +48,7 @@
                         
                         <h1 class="card-title text-capitalize mr-3"><%=words[i].source%> 
                             <% if(words[i].source!=words[i].result){ %>
-                             &ensp;(<%=words[i].result%>)
+                             &ensp;<%=words[i].result%>
                             <% } %>
                         </h1>
                         <form action="/remove" method="post" onsubmit="if(confirm('Remove this word from your dictionary?')) return true; else return false;">
