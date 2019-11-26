@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+  <% include ../partials/nav.ejs %>
+  <%if(error==1){%>
+    <script>alert("Email existed!\nPlease try again!");</script>
+  <%}%>
+  
+  <script language="JavaScript">
+    function confirmPassword(){
+      if(document.myForm.password.value != document.myForm.password2.value){
+          alert("Password not match!\nPlease try again!");
+          document.myForm.password.value="";
+          document.myForm.password2.value="";
+          return false;
+      }
+      else if(document.myForm.password.value.length<8){
+        alert("Password must be at least 8 characters");
+          document.myForm.password.value="";
+          document.myForm.password2.value="";
+          return false;
+      }else{
+        return true;
+      }
+    }
+
+    function checkSpam(phone){
+      if(!Number.isInteger(Number(phone))){
+          alert('Your phone can only consist of number!');
+          return false;
+        }
+        else{
+          return true;
+      }
+    }
+</script>
+
+
+  <div class="container">
+    <div class="row">
+
+    
+    <div class="col-lg"></div>
+    <form class="card col-lg-6 shadow-lg my-5 p-5"action="/register" style="border-radius: 15px;" name="myForm" method="post" onsubmit="if(checkSpam(this.phone.value)){return confirmPassword();}else{return false;}">
+      <!-- Title -->
+      <div class="row">
+        <div class="col-md text-center">
+          <h2 style="font-size:40px;">User Registration</h2><br>
+        </div>
+      </div>
+      <!-- Data Input -->
+      <div class="form-group row">
+          <label>Email</label>
+          <input class="form-control" type="email" name="email" required>
+        </div>  
+
+      <div class="form-group row">
+          <label>Password</label>
+          <input class="form-control" type="password" name="password" required>
+      </div>
+
+      <div class="form-group row">
+        <label>Confirm Password</label>
+        <input class="form-control" type="password" name="password2" required>
+      </div>
+
+      <div class="form-group row">
+            <label>Name</label>
+            <input class="form-control" type="name" name="name" required>
+      </div>
+
+      <div class="form-group row">
+            <label>Gender</label>
+            <select class="form-control" name="gender">
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+      </div>
+
+      <div class="form-group row">
+          <label>Phone</label>
+          <input class="form-control" type="text" name="phone" required>
+      
+      </div>
+
+      <div class="form-group row">
+          <label>Date of Birth</label>
+          <input class="form-control" type="date" name="DOB" max="2019-11-15" required>
+      
+      </div>
+      <div class="form-group row">
+          <div class="checkbox">
+              <label><input type="checkbox" value="" required> I have agreed to the terms and conditions.</label>
+            </div>
+      
+      </div>
+      
+
+      <div class="row mt-2">
+          <div class="col-md"></div>
+        <div class="col-md text-center">
+            <button class="form-control btn-primary px-4 py-2" style="font-family: 'Times New Roman', Times, serif; font-size:25px; border-radius: 40px; border-color:#4c96d7; background-color:#4c96d7" type="submit" >Register</button>
+        </div>
+        <div class="col-md text-center">
+            <a href="/login" class="btn form-control px-4 py-2" id="cancel-button" style="font-family: 'Times New Roman', Times, serif; font-size:25px;" type="submit" >Cancel</a>
+        </div>
+        <div class="col-md"></div>
+      </div>
+      
+    </form>
+    <div class="col-lg"></div>
+  </div>
+  </div>
+</body>
+</html>

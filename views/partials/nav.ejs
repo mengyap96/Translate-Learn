@@ -1,0 +1,26 @@
+
+  <ul class="nav nav-pills static-top shadow-sm p-1 px-5">
+        <a class="navbar-brand mr-auto" href="/" style="color:#4c96d7">
+          Translate<span style="color:black">&</span>Learn
+        </a>
+        
+        <% if(id!=null){ %> 
+          <li class="nav-item dropdown"></li>
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+        style="color:#4c96d7;font-weight: 500;text-transform: uppercase;" href="#" ><i class="fa fa-user" style="color:#4c96d7" aria-hidden="true"></i>&ensp;<%= name %></a>
+        <div class="dropdown-menu shadow-lg" style="border-radius: 5px;" aria-labelledby="navbarDropdown">
+            
+            <a class="dropdown-item" href="/dictionary"><i class="fa fa-book" style="color:#4c96d7" aria-hidden="true"></i>&ensp;&ensp;Dictionary</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out" style="color:#4c96d7" aria-hidden="true"></i>&ensp;&ensp;Logout</a>
+          </div>
+        <% } else {%>
+        <li class="nav-item">
+          <a class="nav-link active" style="border-radius: 40px; background-color:#4c96d7" href="/login" >Login</a>
+        </li>
+        <% } %>
+      </ul>
+  
+  
+  
+  

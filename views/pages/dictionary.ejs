@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+    <% include ../partials/nav.ejs %>
+    
+    <div class="row justify-content-md-center mx-0 my-3">
+        <div class="w-100"></div>
+        <form action="/search" method="post">
+            <div class="row">
+                <div class="input-group mb-3 col">
+                    <input type="search" class="form-control" name="key" id="key" value="<%=key%>" placeholder="Search here" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" style="border-color:#4c96d7; background-color:#4c96d7"type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <% if(words.length==0){ %>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="card col-sm-8 text-light px-5 pb-2" style="border-color:#4c96d7; background-color:#4c96d7">
+                    <div class="card-block text-center">
+                    <a href="/" style="color:white;">
+                        <h1 class="card-title">No words in your dictionary yet!</h1>
+                        <h1  class="card-title">Go and add one now!</h1>
+                    </a>
+                    </div>
+                  </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    <% } %>
+
+    <% for(i=0;i<words.length;i++) { %>
+    <div class="container">
+        <div class="row  my-3">
+            <div class="col-sm-2"></div>
+            <div class="card text-light px-5 pb-2 col-sm-8" style="border-color:#4c96d7; background-color:#4c96d7">
+                    <div class="card-body">
+                      <div class="row m-0 justify-content-between">
+                        
+                        <h1 class="card-title text-capitalize mr-3"><%=words[i].source%> 
+                            <% if(words[i].source!=words[i].result){ %>
+                            (<%=words[i].result%>)
+                            <% } %>
+                        </h1>
+                        <form action="/remove" method="post" onsubmit="if(confirm('Remove this word from your dictionary?')) return true; else return false;">
+                            <input name="source" value="<%=words[i].source%>" hidden>
+                            <input name="definition" value="<%=words[i].definition%>" hidden>
+                            <button type="submit" class="btn btn-outline-light mt-2" style="height:min-content;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                          </form>
+                    </div>
+                        <p class="card-text font-italic"><small><%=words[i].partOfSpeech%></small></p>
+                        <p class="card-text"><%=words[i].definition%></p>
+                      
+                    </div>
+                  </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    <% } %>
+</body>
+</html>
